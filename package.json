@@ -17,7 +17,7 @@
         {
           "id": "chatContainer",
           "title": "LLM Chat",
-          "icon": "assets/icon.svg"
+          "icon": "icon.svg"
         }
       ]
     },
@@ -27,7 +27,7 @@
           "type": "webview",
           "id": "chatView",
           "name": "Chat Panel",
-          "icon": "assets/icon.svg"
+          "icon": "icon.svg"
         }
       ]
     }

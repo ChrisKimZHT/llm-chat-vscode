@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <h1>llm-chat</h1>
+  <button onclick="sendMessage()">hello world!</button>
+  <script>
+    const vscode = acquireVsCodeApi();
+    function sendMessage() {
+      vscode.postMessage({
+        command: 'showMessage',
+        text: 'Hello!'
+      });
+    }
+  </script>
+</body>
+
+</html>

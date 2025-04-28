@@ -1,10 +1,17 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
       "chatView",
-      new ChatViewProvider(context)
+      new ChatViewProvider(context),
+      {
+        webviewOptions: {
+          retainContextWhenHidden: true,
+        },
+      }
     )
   );
 }
@@ -21,7 +28,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
     };
 
-    webviewView.webview.html = this.getWebviewContent();
+    webviewView.webview.html = this.getWebviewContent(webviewView.webview);
 
     webviewView.webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
@@ -32,25 +39,10 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  getWebviewContent() {
-    return `
-<!DOCTYPE html>
-<html>
-<body>
-    <h1>llm-chat</h1>
-    <button onclick="sendMessage()">hello world!</button>
-    <script>
-        const vscode = acquireVsCodeApi();
-        function sendMessage() {
-            vscode.postMessage({
-                command: 'showMessage',
-                text: 'Hello!'
-            });
-        }
-    </script>
-</body>
-</html>
-`;
+  getWebviewContent(webview: vscode.Webview) {
+    const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'chatPanel.html'));
+    const htmlContent = fs.readFileSync(onDiskPath.fsPath, 'utf-8');
+    return htmlContent;
   }
 }
 

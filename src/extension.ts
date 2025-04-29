@@ -39,6 +39,8 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
+        case 'displayMessage':
+          vscode.window.showInformationMessage(message.text);
         case 'sendQuery':
           await queryModel(webviewView.webview, message.messages);
           break;
@@ -85,5 +87,7 @@ async function queryModel(webview: vscode.Webview, messages: Array<ChatCompletio
       webview.postMessage({ command: 'sendResponseDelta', delta });
     }
   }
+
+  webview.postMessage({ command: 'sendResponseEnd' });
 }
 

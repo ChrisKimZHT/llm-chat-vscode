@@ -1,5 +1,6 @@
 const vscode = acquireVsCodeApi();
 
+let isReceivingResponse = false;
 const messages = [];
 
 function appendMessage(role, content) {
@@ -32,6 +33,11 @@ function appendLatestAssistantContent(deltaContent) {
 document.getElementById('input-box').addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
+    if (isReceivingResponse) {
+      vscode.postMessage({ command: 'displayMessage', text: 'Please wait for the response to finish.' });
+      return;
+    }
+
     const userMessage = document.getElementById('input-box').value.trim();
     if (!userMessage) {
       return;
@@ -39,6 +45,8 @@ document.getElementById('input-box').addEventListener('keydown', (event) => {
     appendMessage('user', userMessage);
     vscode.postMessage({ command: 'sendQuery', messages });
     document.getElementById('input-box').value = '';
+
+    isReceivingResponse = true;
   }
 });
 
@@ -52,6 +60,9 @@ window.addEventListener('message', (event) => {
       }
       const content = delta.content;
       appendLatestAssistantContent(content);
+      break;
+    case 'sendResponseEnd':
+      isReceivingResponse = false;
       break;
   }
 });

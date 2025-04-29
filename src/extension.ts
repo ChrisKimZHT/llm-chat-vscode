@@ -29,6 +29,9 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
   ) {
     webviewView.webview.options = {
       enableScripts: true,
+      localResourceRoots: [
+        vscode.Uri.file(path.join(this.context.extensionPath, 'webview')),
+      ],
     };
 
     webviewView.webview.html = this.getWebviewContent(webviewView.webview);
@@ -43,9 +46,18 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
   }
 
   getWebviewContent(webview: vscode.Webview) {
-    const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'chatPanel.html'));
-    const htmlContent = fs.readFileSync(onDiskPath.fsPath, 'utf-8');
-    return htmlContent;
+    const htmlOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'index.html'));
+    const cssOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'style.css'));
+    const jsOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'script.js'));
+
+    const htmlContent = fs.readFileSync(htmlOnDiskPath.fsPath, 'utf-8');
+
+    const cssWebviewUri = webview.asWebviewUri(cssOnDiskPath);
+    const jsWebviewUri = webview.asWebviewUri(jsOnDiskPath);
+    const html = htmlContent
+      .replace(/{{stylePath}}/g, cssWebviewUri.toString())
+      .replace(/{{scriptPath}}/g, jsWebviewUri.toString());
+    return html;
   }
 }
 

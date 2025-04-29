@@ -3,7 +3,10 @@ const vscode = acquireVsCodeApi();
 const messages = [];
 
 function appendMessage(role, content) {
+  // update js object
   messages.push({ role, content });
+
+  // update dom
   const chatContainer = document.getElementById('chat-container');
   const newResponseDiv = document.createElement('div');
   newResponseDiv.className = `message ${role}`;
@@ -18,6 +21,10 @@ function appendLatestAssistantContent(deltaContent) {
     appendMessage('assistant', deltaContent);
     return;
   }
+  // update js object
+  messages[messages.length - 1].content += deltaContent;
+
+  // update dom
   const contentLine = lastMessage.querySelector('.content-line');
   contentLine.innerHTML += deltaContent;
 }

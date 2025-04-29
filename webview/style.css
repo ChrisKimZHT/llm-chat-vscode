@@ -67,3 +67,17 @@ body {
   border-color: #E59700;
   transition: border 0.2s ease;
 }
+
+.small-square-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background-color: #3B3B3C;
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px;
+  user-select: none;
+}

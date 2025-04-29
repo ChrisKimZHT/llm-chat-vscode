@@ -50,6 +50,18 @@ document.getElementById('input-box').addEventListener('keydown', (event) => {
   }
 });
 
+document.getElementById('reset-button').addEventListener('click', (event) => {
+  if (isReceivingResponse) {
+    vscode.postMessage({ command: 'displayMessage', text: 'Please wait for the response to finish.' });
+    return;
+  }
+
+  messages.length = 0; // Clear the messages array
+  const chatContainer = document.getElementById('chat-container');
+  chatContainer.innerHTML = ''; // Clear the chat container
+  vscode.postMessage({ command: 'resetChat' });
+});
+
 window.addEventListener('message', (event) => {
   const message = event.data;
   switch (message.command) {

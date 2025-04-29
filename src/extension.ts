@@ -1,11 +1,12 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import OpenAI from 'openai';
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
-      "chatView",
+      'chatView',
       new ChatViewProvider(context),
       {
         webviewOptions: {
@@ -15,6 +16,8 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 }
+
+export function deactivate() { }
 
 export class ChatViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) { }
@@ -32,8 +35,8 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
-        case "showMessage":
-          vscode.window.showInformationMessage(message.text);
+        case 'sendQuery':
+          await queryModel(webviewView.webview, message.userMessage);
           break;
       }
     });
@@ -46,4 +49,23 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
   }
 }
 
-export function deactivate() { }
+async function queryModel(webview: vscode.Webview, userMessage: string) {
+  const client = new OpenAI({
+    baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    apiKey: '',
+  });
+
+  const stream = await client.chat.completions.create({
+    model: 'qwen-max-latest',
+    messages: [{ role: 'user', content: userMessage }],
+    stream: true,
+  });
+
+  for await (const event of stream) {
+    if (event.choices[0].delta) {
+      const delta = event.choices[0].delta;
+      webview.postMessage({ command: 'sendResponseDelta', delta });
+    }
+  }
+}
+

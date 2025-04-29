@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>LLM Chat</title>
   <style>
     body {
@@ -56,10 +56,10 @@
 </head>
 
 <body>
-  <div id="chat-container"></div>
-  <div id="input-container">
-    <input type="text" id="query-input" placeholder="Type your query here..." />
-    <button id="send-button">Send</button>
+  <div id='chat-container'></div>
+  <div id='input-container'>
+    <input type='text' id='query-input' placeholder='Type your query here...' />
+    <button id='send-button'>Send</button>
   </div>
   <script>
     const vscode = acquireVsCodeApi();
@@ -75,7 +75,7 @@
     window.addEventListener('message', (event) => {
       const message = event.data;
       switch (message.command) {
-        case 'displayResponse':
+        case 'sendResponseDelta':
           const chatContainer = document.getElementById('chat-container');
           let lastResponseDiv = chatContainer.lastElementChild;
           if (!lastResponseDiv || !lastResponseDiv.classList.contains('response')) {
@@ -83,7 +83,7 @@
             lastResponseDiv.classList.add('response');
             chatContainer.appendChild(lastResponseDiv);
           }
-          lastResponseDiv.textContent += message.response;
+          lastResponseDiv.textContent += message.delta.content;
           chatContainer.scrollTop = chatContainer.scrollHeight;
           break;
       }

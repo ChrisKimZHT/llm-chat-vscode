@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import OpenAI from 'openai';
+import { ChatCompletionMessageParam } from 'openai/resources.mjs';
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -39,7 +40,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
         case 'sendQuery':
-          await queryModel(webviewView.webview, message.userMessage);
+          await queryModel(webviewView.webview, message.messages);
           break;
       }
     });
@@ -61,7 +62,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
   }
 }
 
-async function queryModel(webview: vscode.Webview, userMessage: string) {
+async function queryModel(webview: vscode.Webview, messages: Array<ChatCompletionMessageParam>) {
   const config = vscode.workspace.getConfiguration('llmChat');
   const { baseURL, apiKey, model } = config;
 
@@ -74,7 +75,7 @@ async function queryModel(webview: vscode.Webview, userMessage: string) {
 
   const stream = await client.chat.completions.create({
     model,
-    messages: [{ role: 'user', content: userMessage }],
+    messages: messages,
     stream: true,
   });
 

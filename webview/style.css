@@ -1,46 +1,68 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 #chat-container {
-    height: calc(100vh - 60px);
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    box-sizing: border-box;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.user>.role-line {
+  text-align: right;
+}
+
+.content-line {
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #303030;
+  color: #ffffff;
+  border-radius: 5px;
+  transition: box-shadow 0.1s ease;
+}
+
+.content-line:hover {
+  box-shadow: 0 0 5px #aaa;
+  transition: box-shadow 0.1s ease;
 }
 
 #input-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 20px);
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#query-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+#input-box {
+  flex: 1;
+  padding: 10px;
+  resize: none;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  min-width: 0px;
+  height: 50px;
+  background-color: #303030;
+  color: #ffffff;
+  transition: border 0.2s ease;
 }
 
-#send-button {
-    padding: 10px;
-    margin-left: 4px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#send-button:hover {
-    background-color: #c0c0c0;
+#input-box:focus {
+  border-color: #E59700;
+  transition: border 0.2s ease;
 }

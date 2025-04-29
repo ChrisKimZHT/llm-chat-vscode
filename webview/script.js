@@ -17,6 +17,11 @@ function appendMessage(role, content, reasoning_content = '') {
   chatContainer.appendChild(newResponseDiv);
 }
 
+function scrollToBottom() {
+  const chatContainer = document.getElementById('chat-container');
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
 function appendLatestAssistantContent(deltaContent, deltaReasoningContent = '') {
   const chatContainer = document.getElementById('chat-container');
   const lastMessage = chatContainer.lastElementChild;
@@ -35,6 +40,8 @@ function appendLatestAssistantContent(deltaContent, deltaReasoningContent = '') 
   assistantContent.innerHTML = renderedContent;
   const reasoningContent = lastMessage.querySelector('.reasoning-content');
   reasoningContent.innerHTML += deltaReasoningContent;
+
+  scrollToBottom();
 }
 
 function handleSendMessage() {

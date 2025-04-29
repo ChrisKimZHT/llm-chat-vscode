@@ -3,9 +3,9 @@ const vscode = acquireVsCodeApi();
 let isReceivingResponse = false;
 const messages = [];
 
-function appendMessage(role, content) {
+function appendMessage(role, content, reasoning_content = '') {
   // update js object
-  messages.push({ role, content });
+  messages.push({ role, content, reasoning_content });
 
   // update dom
   const chatContainer = document.getElementById('chat-container');
@@ -13,25 +13,28 @@ function appendMessage(role, content) {
 
   const renderedContent = marked.parse(content);
   newResponseDiv.className = `message ${role}`;
-  newResponseDiv.innerHTML = `<div class="role-line">${role === 'user' ? 'user 🧑‍💻' : '🤖 assistant'}</div><div class="content-line">${renderedContent}</div>`;
+  newResponseDiv.innerHTML = `<div class="role-line">${role === 'user' ? 'user 🧑‍💻' : '🤖 assistant'}</div><div class="content-line"><pre class="reasoning-content">${reasoning_content}</pre><div class="assistant-content">${renderedContent}</div></div>`;
   chatContainer.appendChild(newResponseDiv);
 }
 
-function appendLatestAssistantContent(deltaContent) {
+function appendLatestAssistantContent(deltaContent, deltaReasoningContent = '') {
   const chatContainer = document.getElementById('chat-container');
   const lastMessage = chatContainer.lastElementChild;
   if (!lastMessage || !lastMessage.classList.contains('assistant')) {
-    appendMessage('assistant', deltaContent);
+    appendMessage('assistant', deltaContent, deltaReasoningContent);
     return;
   }
   // update js object
   messages[messages.length - 1].content += deltaContent;
+  messages[messages.length - 1].reasoning_content += deltaReasoningContent;
 
   // update dom
   const renderedContent = marked.parse(messages[messages.length - 1].content);
 
-  const contentLine = lastMessage.querySelector('.content-line');
-  contentLine.innerHTML = renderedContent;
+  const assistantContent = lastMessage.querySelector('.assistant-content');
+  assistantContent.innerHTML = renderedContent;
+  const reasoningContent = lastMessage.querySelector('.reasoning-content');
+  reasoningContent.innerHTML += deltaReasoningContent;
 }
 
 function handleSendMessage() {
@@ -85,7 +88,7 @@ window.addEventListener('message', (event) => {
       if (delta.content) {
         appendLatestAssistantContent(delta.content);
       } else if (delta.reasoning_content) {
-        appendLatestAssistantContent(delta.reasoning_content);
+        appendLatestAssistantContent('', delta.reasoning_content);
       }
       break;
     case 'sendResponseEnd':

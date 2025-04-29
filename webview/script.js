@@ -30,24 +30,32 @@ function appendLatestAssistantContent(deltaContent) {
   contentLine.innerHTML += deltaContent;
 }
 
+function handleSendMessage() {
+  if (isReceivingResponse) {
+    vscode.postMessage({ command: 'displayMessage', text: 'Please wait for the response to finish.' });
+    return;
+  }
+
+  const userMessage = document.getElementById('input-box').value.trim();
+  if (!userMessage) {
+    return;
+  }
+  appendMessage('user', userMessage);
+  vscode.postMessage({ command: 'sendQuery', messages });
+  document.getElementById('input-box').value = '';
+
+  isReceivingResponse = true;
+}
+
 document.getElementById('input-box').addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
-    if (isReceivingResponse) {
-      vscode.postMessage({ command: 'displayMessage', text: 'Please wait for the response to finish.' });
-      return;
-    }
-
-    const userMessage = document.getElementById('input-box').value.trim();
-    if (!userMessage) {
-      return;
-    }
-    appendMessage('user', userMessage);
-    vscode.postMessage({ command: 'sendQuery', messages });
-    document.getElementById('input-box').value = '';
-
-    isReceivingResponse = true;
+    handleSendMessage();
   }
+});
+
+document.getElementById('send-button').addEventListener('click', (event) => {
+  handleSendMessage();
 });
 
 document.getElementById('reset-button').addEventListener('click', (event) => {

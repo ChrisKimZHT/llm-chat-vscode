@@ -31,6 +31,7 @@ body {
   color: #ffffff;
   border-radius: 5px;
   transition: box-shadow 0.1s ease;
+  white-space: pre-wrap;
 }
 
 .content-line:hover {

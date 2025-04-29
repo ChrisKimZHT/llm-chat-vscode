@@ -11,9 +11,16 @@ function appendMessage(role, content) {
   chatContainer.appendChild(newResponseDiv);
 }
 
-appendMessage('user', 'Hello, how can I assist you today?');
-appendMessage('assistant', 'I am here to help you with your coding questions!');
-appendMessage('user', 'What is the best way to learn JavaScript?');
+function appendLatestAssistantContent(deltaContent) {
+  const chatContainer = document.getElementById('chat-container');
+  const lastMessage = chatContainer.lastElementChild;
+  if (!lastMessage || !lastMessage.classList.contains('assistant')) {
+    appendMessage('assistant', deltaContent);
+    return;
+  }
+  const contentLine = lastMessage.querySelector('.content-line');
+  contentLine.innerHTML += deltaContent;
+}
 
 document.getElementById('input-box').addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
@@ -24,7 +31,7 @@ document.getElementById('input-box').addEventListener('keydown', (event) => {
     }
     appendMessage('user', userMessage);
     vscode.postMessage({ command: 'sendQuery', messages });
-    document.getElementById('query-input').value = '';
+    document.getElementById('input-box').value = '';
   }
 });
 
@@ -32,7 +39,12 @@ window.addEventListener('message', (event) => {
   const message = event.data;
   switch (message.command) {
     case 'sendResponseDelta':
-
+      const delta = message.delta;
+      if (!delta) {
+        return;
+      }
+      const content = delta.content;
+      appendLatestAssistantContent(content);
       break;
   }
 });

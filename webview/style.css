@@ -4,6 +4,33 @@ body {
   padding: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+ol {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+h1:last-child,
+h2:last-child,
+h3:last-child,
+h4:last-child,
+h5:last-child,
+h6:last-child,
+p:last-child,
+ul:last-child,
+li:last-child,
+ol:last-child {
+  margin-bottom: 0;
+}
+
 #chat-container {
   height: calc(100vh - 100px);
   overflow-y: auto;
@@ -31,7 +58,6 @@ body {
   color: #ffffff;
   border-radius: 5px;
   transition: box-shadow 0.1s ease;
-  white-space: pre-wrap;
 }
 
 .content-line:hover {

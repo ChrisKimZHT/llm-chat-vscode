@@ -53,14 +53,17 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
     const htmlOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'index.html'));
     const cssOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'style.css'));
     const jsOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'script.js'));
+    const markedOnDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'webview', 'marked.min.js'));
 
     const htmlContent = fs.readFileSync(htmlOnDiskPath.fsPath, 'utf-8');
 
     const cssWebviewUri = webview.asWebviewUri(cssOnDiskPath);
     const jsWebviewUri = webview.asWebviewUri(jsOnDiskPath);
+    const markedWebviewUri = webview.asWebviewUri(markedOnDiskPath);
     const html = htmlContent
       .replace(/{{stylePath}}/g, cssWebviewUri.toString())
-      .replace(/{{scriptPath}}/g, jsWebviewUri.toString());
+      .replace(/{{scriptPath}}/g, jsWebviewUri.toString())
+      .replace(/{{markedPath}}/g, markedWebviewUri.toString());
     return html;
   }
 }

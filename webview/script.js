@@ -10,8 +10,10 @@ function appendMessage(role, content) {
   // update dom
   const chatContainer = document.getElementById('chat-container');
   const newResponseDiv = document.createElement('div');
+
+  const renderedContent = marked.parse(content);
   newResponseDiv.className = `message ${role}`;
-  newResponseDiv.innerHTML = `<div class="role-line">${role === 'user' ? 'user 🧑‍💻' : '🤖 assistant'}</div><div class="content-line">${content}</div>`;
+  newResponseDiv.innerHTML = `<div class="role-line">${role === 'user' ? 'user 🧑‍💻' : '🤖 assistant'}</div><div class="content-line">${renderedContent}</div>`;
   chatContainer.appendChild(newResponseDiv);
 }
 
@@ -26,8 +28,10 @@ function appendLatestAssistantContent(deltaContent) {
   messages[messages.length - 1].content += deltaContent;
 
   // update dom
+  const renderedContent = marked.parse(messages[messages.length - 1].content);
+
   const contentLine = lastMessage.querySelector('.content-line');
-  contentLine.innerHTML += deltaContent;
+  contentLine.innerHTML = renderedContent;
 }
 
 function handleSendMessage() {

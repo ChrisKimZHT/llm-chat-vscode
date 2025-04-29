@@ -30,6 +30,26 @@
           "icon": "icon.svg"
         }
       ]
+    },
+    "configuration": {
+      "title": "LLM Chat Provider Settings",
+      "properties": {
+        "llmChat.baseURL": {
+          "type": "string",
+          "default": "",
+          "description": "Base URL for the LLM provider."
+        },
+        "llmChat.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for the LLM provider."
+        },
+        "llmChat.model": {
+          "type": "string",
+          "default": "",
+          "description": "Model to use for the LLM provider."
+        }
+      }
     }
   },
   "scripts": {

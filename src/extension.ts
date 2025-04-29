@@ -50,13 +50,18 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
 }
 
 async function queryModel(webview: vscode.Webview, userMessage: string) {
-  const client = new OpenAI({
-    baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-    apiKey: '',
-  });
+  const config = vscode.workspace.getConfiguration('llmChat');
+  const { baseURL, apiKey, model } = config;
+
+  if (!baseURL || !apiKey || !model) {
+    vscode.window.showErrorMessage('Please configure the LLM Chat extension settings: baseURL, apiKey, and model.');
+    return;
+  }
+
+  const client = new OpenAI({ baseURL, apiKey });
 
   const stream = await client.chat.completions.create({
-    model: 'qwen-max-latest',
+    model,
     messages: [{ role: 'user', content: userMessage }],
     stream: true,
   });

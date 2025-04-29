@@ -58,8 +58,11 @@ window.addEventListener('message', (event) => {
       if (!delta) {
         return;
       }
-      const content = delta.content;
-      appendLatestAssistantContent(content);
+      if (delta.content) {
+        appendLatestAssistantContent(delta.content);
+      } else if (delta.reasoning_content) {
+        appendLatestAssistantContent(delta.reasoning_content);
+      }
       break;
     case 'sendResponseEnd':
       isReceivingResponse = false;

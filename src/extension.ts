@@ -41,6 +41,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
       switch (message.command) {
         case 'displayMessage':
           vscode.window.showInformationMessage(message.text);
+          break;
         case 'sendQuery':
           await queryModel(webviewView.webview, message.messages);
           break;

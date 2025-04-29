@@ -14,8 +14,10 @@ p,
 ul,
 li,
 ol {
-  margin: 0 0 10px 0;
-  padding: 0;
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 h1:last-child,

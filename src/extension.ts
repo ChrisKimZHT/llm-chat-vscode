@@ -40,10 +40,14 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (message) => {
       switch (message.command) {
         case 'displayMessage':
-          vscode.window.showInformationMessage(message.text);
+          vscode.window.showInformationMessage(vscode.l10n.t(message.text));
           break;
         case 'sendQuery':
           await queryModel(webviewView.webview, message.messages);
+          break;
+        case 'getL10nBundle':
+          const bundle = vscode.l10n.bundle || {};
+          webviewView.webview.postMessage({ command: 'l10nBundle', bundle });
           break;
       }
     });
@@ -73,7 +77,7 @@ async function queryModel(webview: vscode.Webview, messages: Array<ChatCompletio
   const { baseURL, apiKey, model } = config;
 
   if (!baseURL || !apiKey || !model) {
-    vscode.window.showErrorMessage('Please configure the LLM Chat extension settings: baseURL, apiKey, and model.');
+    vscode.window.showErrorMessage(vscode.l10n.t('Please configure the LLM Chat extension settings: baseURL, apiKey, and model.'));
     return;
   }
 

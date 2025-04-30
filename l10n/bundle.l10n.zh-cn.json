@@ -1,0 +1,8 @@
+{
+  "Please configure the LLM Chat extension settings: baseURL, apiKey, and model.": "请配置 LLM Chat 扩展设置：baseURL、apiKey、model.",
+  "Please wait for the response to finish.": "请等待本次响应完成。",
+  "assistant": "助手",
+  "user": "用户",
+  "Hello! How can I help you today?": "你好！有什么需要帮助的吗？",
+  "Type your message here, enter to submit.": "在此输入消息，回车键提交。"
+}

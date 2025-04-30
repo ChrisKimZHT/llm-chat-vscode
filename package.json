@@ -16,7 +16,7 @@
       "activitybar": [
         {
           "id": "chatContainer",
-          "title": "LLM Chat",
+          "title": "%llm-chat.viewsContainers.activitybar.chatContainer%",
           "icon": "icon.svg"
         }
       ]
@@ -26,32 +26,33 @@
         {
           "type": "webview",
           "id": "chatView",
-          "name": "Chat Panel",
+          "name": "%llm-chat.views.chatContainer.chatView%",
           "icon": "icon.svg"
         }
       ]
     },
     "configuration": {
-      "title": "LLM Chat Provider Settings",
+      "title": "%llm-chat.configuration.title%",
       "properties": {
         "llmChat.baseURL": {
           "type": "string",
           "default": "",
-          "description": "Base URL for the LLM provider."
+          "description": "%llm-chat.configuration.properties.baseURL.description%"
         },
         "llmChat.apiKey": {
           "type": "string",
           "default": "",
-          "description": "API key for the LLM provider."
+          "description": "%llm-chat.configuration.properties.apiKey.description%"
         },
         "llmChat.model": {
           "type": "string",
           "default": "",
-          "description": "Model to use for the LLM provider."
+          "description": "%llm-chat.configuration.properties.model.description%"
         }
       }
     }
   },
+  "l10n": "./l10n",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -66,12 +67,14 @@
     "@types/vscode": "^1.99.0",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
+    "@vscode/l10n-dev": "^0.0.35",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.23.0",
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@vscode/l10n": "^0.0.18",
     "axios": "^1.9.0",
     "openai": "^4.96.0"
   }

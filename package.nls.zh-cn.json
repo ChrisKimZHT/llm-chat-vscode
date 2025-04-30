@@ -1,0 +1,8 @@
+{
+  "llm-chat.viewsContainers.activitybar.chatContainer": "大模型对话",
+  "llm-chat.views.chatContainer.chatView": "聊天面板",
+  "llm-chat.configuration.title": "大模型平台设置",
+  "llm-chat.configuration.properties.baseURL.description": "大模型平台的基础 URL。",
+  "llm-chat.configuration.properties.apiKey.description": "大模型平台的 API 密钥。",
+  "llm-chat.configuration.properties.model.description": "大模型平台使用的模型。"
+}

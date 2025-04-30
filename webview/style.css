@@ -38,6 +38,10 @@ pre {
   word-wrap: break-word;
 }
 
+textarea {
+  font-family: Arial, sans-serif;
+}
+
 #chat-container {
   height: calc(100vh - 100px);
   overflow-y: auto;

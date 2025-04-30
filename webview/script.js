@@ -3,9 +3,11 @@ const vscode = acquireVsCodeApi();
 let isReceivingResponse = false;
 const messages = [];
 
-function appendMessage(role, content, reasoning_content = '') {
+function appendMessage(role, content, reasoning_content = '', skipUpdateJsObject = false) {
   // update js object
-  messages.push({ role, content, reasoning_content });
+  if (!skipUpdateJsObject) {
+    messages.push({ role, content, reasoning_content });
+  }
 
   // update dom
   const chatContainer = document.getElementById('chat-container');
@@ -20,6 +22,13 @@ function appendMessage(role, content, reasoning_content = '') {
 function scrollToBottom() {
   const chatContainer = document.getElementById('chat-container');
   chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function resetChat() {
+  messages.length = 0; // Clear the messages array
+  const chatContainer = document.getElementById('chat-container');
+  chatContainer.innerHTML = ''; // Clear the chat container
+  appendMessage('assistant', 'Hello! How can I help you today?', '', true);
 }
 
 function appendLatestAssistantContent(deltaContent, deltaReasoningContent = '') {
@@ -78,10 +87,7 @@ document.getElementById('reset-button').addEventListener('click', (event) => {
     return;
   }
 
-  messages.length = 0; // Clear the messages array
-  const chatContainer = document.getElementById('chat-container');
-  chatContainer.innerHTML = ''; // Clear the chat container
-  vscode.postMessage({ command: 'resetChat' });
+  resetChat();
 });
 
 window.addEventListener('message', (event) => {
@@ -103,3 +109,5 @@ window.addEventListener('message', (event) => {
       break;
   }
 });
+
+resetChat();

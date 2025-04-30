@@ -100,6 +100,9 @@ function initMessageListener() {
         }
         postInit();
         break;
+      case 'queryError':
+        isReceivingResponse = false;
+        break;
     }
   });
 }

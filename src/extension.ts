@@ -78,24 +78,31 @@ async function queryModel(webview: vscode.Webview, messages: Array<ChatCompletio
 
   if (!baseURL || !apiKey || !model) {
     vscode.window.showErrorMessage(vscode.l10n.t('Please configure the LLM Chat extension settings: baseURL, apiKey, and model.'));
+    webview.postMessage({ command: 'queryError' });
     return;
   }
 
-  const client = new OpenAI({ baseURL, apiKey });
+  try {
+    const client = new OpenAI({ baseURL, apiKey });
 
-  const stream = await client.chat.completions.create({
-    model,
-    messages: messages,
-    stream: true,
-  });
+    const stream = await client.chat.completions.create({
+      model,
+      messages: messages,
+      stream: true,
+    });
 
-  for await (const event of stream) {
-    if (event.choices[0].delta) {
-      const delta = event.choices[0].delta;
-      webview.postMessage({ command: 'sendResponseDelta', delta });
+    for await (const event of stream) {
+      if (event.choices[0].delta) {
+        const delta = event.choices[0].delta;
+        webview.postMessage({ command: 'sendResponseDelta', delta });
+      }
     }
-  }
 
-  webview.postMessage({ command: 'sendResponseEnd' });
+    webview.postMessage({ command: 'sendResponseEnd' });
+  } catch (error) {
+    console.error('Error querying model:', error);
+    vscode.window.showErrorMessage(vscode.l10n.t('Error occurred while querying the model.'));
+    webview.postMessage({ command: 'queryError' });
+  }
 }
 

@@ -4,5 +4,6 @@
   "assistant": "助手",
   "user": "用户",
   "Hello! How can I help you today?": "你好！有什么需要帮助的吗？",
-  "Type your message here, enter to submit.": "在此输入消息，回车键提交。"
+  "Type your message here, enter to submit.": "在此输入消息，回车键提交。",
+  "Error occurred while querying the model.": "请求模型时发生错误。"
 }

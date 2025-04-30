@@ -42,10 +42,14 @@ textarea {
   font-family: Arial, sans-serif;
 }
 
+textarea:focus {
+  outline: none;
+}
+
 #chat-container {
   height: calc(100vh - 100px);
   overflow-y: auto;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--vscode-sideBar-border);
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
@@ -65,8 +69,8 @@ textarea {
 .content-line {
   margin: 5px 0;
   padding: 10px;
-  background-color: #303030;
-  color: #ffffff;
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-editor-foreground);
   border-radius: 5px;
   transition: box-shadow 0.1s ease;
 }
@@ -91,22 +95,20 @@ textarea {
   flex: 1;
   padding: 10px;
   resize: none;
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--vscode-sideBar-border);
   border-radius: 5px;
   min-width: 0px;
   height: 50px;
-  background-color: #303030;
-  color: #ffffff;
-  transition: border 0.2s ease;
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-editor-foreground);
+  transition: border-color 0.1s ease;
 }
 
 #input-box:focus {
-  border-color: #E59700;
-  transition: border 0.2s ease;
+  border-color: var(--vscode-focusBorder);
 }
 
 .small-square-button {
-  background-color: #3B3B3C;
   width: 20px;
   height: 20px;
   font-size: 18px;
@@ -114,6 +116,14 @@ textarea {
   cursor: pointer;
   border-radius: 2px;
   user-select: none;
+  color: var(--vscode-editor-foreground);
+  background-color: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-background);
+  transition: border-color 0.2s ease;
+}
+
+.small-square-button:hover {
+  border-color: var(--vscode-focusBorder);
 }
 
 #send-button {
@@ -132,7 +142,7 @@ textarea {
   margin: 0 0 10px 0;
   padding: 5px;
   white-space: pre-wrap;
-  border: 1px dashed #5f5f5f;
+  border: 1px dashed var(--vscode-editor-foreground);
   border-radius: 5px;
   font-size: smaller;
   font-weight: lighter;

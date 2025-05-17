@@ -4,5 +4,6 @@
   "llm-chat.configuration.title": "大模型平台设置",
   "llm-chat.configuration.properties.baseURL.description": "大模型平台的基础 URL。",
   "llm-chat.configuration.properties.apiKey.description": "大模型平台的 API 密钥。",
-  "llm-chat.configuration.properties.model.description": "大模型平台使用的模型。"
+  "llm-chat.configuration.properties.model.description": "大模型平台使用的模型。",
+  "llm-chat.commands.copyToChatBox": "复制到聊天框"
 }

@@ -2,7 +2,7 @@
   "name": "llm-chat",
   "displayName": "llm-chat",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.99.0"
   },
@@ -43,7 +43,7 @@
     "commands": [
       {
         "command": "llm-chat.copyToChatBox",
-        "title": "copyToChatBox [L10N TODO]"
+        "title": "%llm-chat.commands.copyToChatBox%"
       }
     ],
     "configuration": {

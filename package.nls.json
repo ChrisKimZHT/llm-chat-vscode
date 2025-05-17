@@ -4,5 +4,6 @@
   "llm-chat.configuration.title": "LLM Chat Provider Settings",
   "llm-chat.configuration.properties.baseURL.description": "Base URL for the LLM provider.",
   "llm-chat.configuration.properties.apiKey.description": "API key for the LLM provider.",
-  "llm-chat.configuration.properties.model.description": "Model to use for the LLM provider."
+  "llm-chat.configuration.properties.model.description": "Model to use for the LLM provider.",
+  "llm-chat.commands.copyToChatBox": "Copy to Chat Box"
 }

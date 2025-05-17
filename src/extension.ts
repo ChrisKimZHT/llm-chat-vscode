@@ -4,6 +4,8 @@ import * as path from 'path';
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources.mjs';
 
+let webViewPanel: vscode.WebviewView | undefined;
+
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
@@ -13,6 +15,25 @@ export function activate(context: vscode.ExtensionContext) {
         webviewOptions: {
           retainContextWhenHidden: true,
         },
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'llm-chat.copyToChatBox', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) { return; } // no open text editor
+
+        const selections = editor.selections; // handle multiple selections
+        const selectedTexts = selections.map(selection => editor.document.getText(selection));
+
+        if (selectedTexts.every(text => text.trim() === '')) { return; } // no text selected
+
+        webViewPanel?.webview.postMessage({
+          command: 'copyToChatBox',
+          selectedTexts,
+        });
       }
     )
   );
@@ -51,6 +72,8 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
           break;
       }
     });
+
+    webViewPanel = webviewView;
   }
 
   getWebviewContent(webview: vscode.Webview) {

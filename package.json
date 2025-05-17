@@ -31,6 +31,21 @@
         }
       ]
     },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "llm-chat.copyToChatBox",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "llm-chat.copyToChatBox",
+        "title": "copyToChatBox [L10N TODO]"
+      }
+    ],
     "configuration": {
       "title": "%llm-chat.configuration.title%",
       "properties": {

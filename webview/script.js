@@ -76,6 +76,20 @@ function handleSendMessage() {
   isReceivingResponse = true;
 }
 
+function appendInputBoxMessage(text) {
+  const inputBox = document.getElementById('input-box');
+  inputBox.value += text;
+  inputBox.focus();
+}
+
+function parseSelectedTexts(selectedTexts) {
+  let result = '';
+  for (const selectedText of selectedTexts) {
+    result += "\n```\n" + selectedText.trim() + "\n```\n";
+  }
+  return result;
+}
+
 function initMessageListener() {
   window.addEventListener('message', (event) => {
     const message = event.data;
@@ -102,6 +116,13 @@ function initMessageListener() {
         break;
       case 'queryError':
         isReceivingResponse = false;
+        break;
+      case 'copyToChatBox':
+        const selectedTexts = message.selectedTexts;
+        if (selectedTexts) {
+          const parsedText = parseSelectedTexts(selectedTexts);
+          appendInputBoxMessage(parsedText);
+        }
         break;
     }
   });

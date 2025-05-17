@@ -1,8 +1,6 @@
 # llm-chat-vscode
 
-一个 VSCode LLM 对话插件，支持接入 OpenAI 格式的 LLM API 接口。
-
-功能**极为简陋**，单纯是入门练习项目。
+一个 VSCode LLM 对话插件，支持接入 OpenAI 格式的 LLM API 接口。功能**极为简陋**，单纯是入门练习项目。
 
 ![screenshot](./screenshot.png)
 
@@ -12,6 +10,7 @@
 - 支持流式消息。
 - 支持 Markdown 渲染。
 - 支持显示推理大模型的思维过程。
+- 支持编辑器右键菜单快速获取选取内容。
 
 技术特性：
 
